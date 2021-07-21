@@ -57,6 +57,7 @@ namespace PUBGAPI
             }
 
             this.httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.apiKey);
+            this.httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.api+json"));
             HttpResponseMessage response = this.httpClient.GetAsync(url).Result;
             if(!response.IsSuccessStatusCode){
                 System.Console.WriteLine($"Error Code: {response.StatusCode} | {response.Content.ReadAsStringAsync().Result}");
@@ -70,8 +71,13 @@ namespace PUBGAPI
 
         }
 
-        public void getPlayers(){
-            string url = $"https://api.pubg.com/shards/steam";
+        public void getPlayers(List<string> accountIds, List<string> playerNames){
+            string url = $"https://api.pubg.com/shards/steam/players?filter[playerIds]={String.Join(",", accountIds)}&filter[playerNames]={String.Join(",", playerNames)}";
+            System.Console.WriteLine("getPlayers");
+            System.Console.WriteLine(url);
+
+            HttpResponseMessage response = this.HttpGetWithAuth(url);
+            System.Console.WriteLine(response.Content.ReadAsStringAsync().Result);
         }
         
         
