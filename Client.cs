@@ -53,14 +53,14 @@ namespace PUBGAPI
             return response;
         }
 
-        public void getPlayerByAccountId(string accountId){
-
+        public HttpResponseMessage getPlayerByAccountId(string accountId){
+            string url = $"https://api.pubg.com/shards/steam/players/{accountId}";
+            return this.HttpGetWithAuth(url);
         }
 
         public HttpResponseMessage getPlayers(List<string> accountIds, List<string> playerNames){
             string url = $"https://api.pubg.com/shards/steam/players?filter[playerIds]={String.Join(",", accountIds)}&filter[playerNames]={String.Join(",", playerNames)}";
             return this.HttpGetWithAuth(url);
-            //System.Console.WriteLine(response.Content.ReadAsStringAsync().Result);
         }
         
         
