@@ -53,6 +53,31 @@ namespace PUBGAPI
             return response;
         }
 
+        public HttpResponseMessage HttpGet(string url){
+            /*
+            if(this.requestCounter == this.requestLimit){
+                System.Threading.Thread.Sleep(this.requestDelayInSeconds * 1000);
+                this.requestCounter = 0;
+            }
+
+            if(this.enableDebugMode){
+                System.Console.WriteLine($"GET: {url}");
+            }
+            */
+
+            this.httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.api+json"));
+            HttpResponseMessage response = this.httpClient.GetAsync(url).Result;
+            /*
+            if(!response.IsSuccessStatusCode){
+                System.Console.WriteLine($"Error Code: {response.StatusCode} | {response.Content.ReadAsStringAsync().Result}");
+                return null;
+            }
+            
+            this.requestCounter++;
+            */
+            return response;
+        }
+
         public HttpResponseMessage getPlayerByAccountId(string accountId){
             string url = $"https://api.pubg.com/shards/steam/players/{accountId}";
             return this.HttpGetWithAuth(url);
@@ -61,6 +86,12 @@ namespace PUBGAPI
         public HttpResponseMessage getPlayers(List<string> accountIds, List<string> playerNames){
             string url = $"https://api.pubg.com/shards/steam/players?filter[playerIds]={String.Join(",", accountIds)}&filter[playerNames]={String.Join(",", playerNames)}";
             return this.HttpGetWithAuth(url);
+        }
+
+        public HttpResponseMessage getMatch(string matchId){
+            System.Console.WriteLine($"getMatch: https://api.pubg.com/shards/steam/matches/{matchId}");
+            string url = $"https://api.pubg.com/shards/steam/matches/{matchId}";
+            return this.HttpGet(url);
         }
         
         
