@@ -40,6 +40,7 @@ namespace PUBGAPI
             */
 
             this.httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.apiKey);
+            this.httpClient.DefaultRequestHeaders.Accept.Clear();
             this.httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.api+json"));
             HttpResponseMessage response = this.httpClient.GetAsync(url).Result;
             /*
@@ -65,7 +66,9 @@ namespace PUBGAPI
             }
             */
 
+            this.httpClient.DefaultRequestHeaders.Accept.Clear();
             this.httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.api+json"));
+
             HttpResponseMessage response = this.httpClient.GetAsync(url).Result;
             /*
             if(!response.IsSuccessStatusCode){
